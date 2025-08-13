@@ -6,18 +6,23 @@ intents = discord.Intents.default()
 bot = discord.Client(intents=intents)
 tree = app_commands.CommandTree(bot)
 
-UPPERORLOWERNUM = [ord("a"), ord("A")]
+UPPERORLOWERORNUM = [ord("a"), ord("A"),ord("0")]
 
 
 def makeingPaypayURL():
     URL = "https://pay.paypay.ne.jp/"
     for i in range(16):
         # ランダム生成の文字について、大文字か小文字かを設定
-        UpperOrLower = random.randint(0, 1)
+        UpperOrLowerOrNum = random.randint(0, 61)
         # 実質的に何の文字が追加されるか
         numOfAlp = random.randint(0, 25)
+        numOfNum = random.randint(0,9)
+        global addWord
         # 実際の文字
-        addWord = chr(UPPERORLOWERNUM[UpperOrLower] + numOfAlp)
+        if UpperOrLowerOrNum // 26 < 2:
+            addWord = chr(UPPERORLOWERORNUM[UpperOrLowerOrNum // 26] + numOfAlp)
+        else :
+            addWord = chr(UPPERORLOWERORNUM[UpperOrLowerOrNum // 26] + numOfNum)
         URL += addWord
     return URL
 
