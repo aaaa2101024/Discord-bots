@@ -6,7 +6,14 @@ intents = discord.Intents.default()
 bot = discord.Client(intents=intents)
 tree = app_commands.CommandTree(bot)
 
-UPPERORLOWERORNUM = [ord("a"), ord("A"),ord("0")]
+UPPERORLOWERORNUM = [ord("a"), ord("A"), ord("0")]
+
+TOKEN = "1"
+
+with open(".env", "r", encoding="utf-8") as f:
+    for line in f:
+        if line[0:len("TOKEN=")] == "TOKEN=":
+            TOKEN = line[len("TOKEN="):]
 
 
 def makeingPaypayURL():
@@ -16,12 +23,12 @@ def makeingPaypayURL():
         UpperOrLowerOrNum = random.randint(0, 61)
         # 実質的に何の文字が追加されるか
         numOfAlp = random.randint(0, 25)
-        numOfNum = random.randint(0,9)
+        numOfNum = random.randint(0, 9)
         global addWord
         # 実際の文字
         if UpperOrLowerOrNum // 26 < 2:
             addWord = chr(UPPERORLOWERORNUM[UpperOrLowerOrNum // 26] + numOfAlp)
-        else :
+        else:
             addWord = chr(UPPERORLOWERORNUM[UpperOrLowerOrNum // 26] + numOfNum)
         URL += addWord
     return URL
@@ -33,17 +40,23 @@ async def on_ready():
     await tree.sync()
     print("スラッシュコマンドなんね")
 
-#32
+
+# 32
 @tree.command(name="hello", description="返事!!!")
 async def hello(interaction: discord.Interaction, text: str):
     await interaction.response.send_message("はろー！！！" + text)
     # await interaction.response.send_message(text)
 
 
-@tree.command(name="randompay",description="paypayおみくじ 第一引数にURLを, 第二引数に出力個数を入力、discordの制約的に45個ぐらいが限界みたい",)
+@tree.command(
+    name="randompay",
+    description="paypayおみくじ 第一引数にURLを, 第二引数に出力個数を入力、discordの制約的に45個ぐらいが限界みたい",
+)
 async def random_pay(interaction: discord.Interaction, url: str, sum: int):
     if sum <= 45:
-        await interaction.response.send_message("[paypay] おみくじが開催されました。受け取りを完了してください。")
+        await interaction.response.send_message(
+            "[paypay] おみくじが開催されました。受け取りを完了してください。"
+        )
         output = "[paypay] おみくじが開催されました。受け取りを完了してください。\n"
         outputList = [url]
         for i in range(sum - 1):
@@ -56,6 +69,9 @@ async def random_pay(interaction: discord.Interaction, url: str, sum: int):
                 output += outputList[numOfOutputURL] + "\n"
         await interaction.edit_original_response(content=output)
     else:
-        await interaction.response.send_message("[paypay] おみくじが開催できませんでした。URLの個数などを見直してください。")
+        await interaction.response.send_message(
+            "[paypay] おみくじが開催できませんでした。URLの個数などを見直してください。"
+        )
 
-bot.run("MTQwNTAxODM0NDk3Mjg3NzgyNA.GLrup5.pwGgc7C-t2mVIxcWYIn6Jk4tu4ceoRgUGX-ovQ")
+
+bot.run(TOKEN)
