@@ -108,7 +108,7 @@ async def ice_tea(interaction: discord.Interaction):
         app_commands.Choice(name="nop.", value="no"),
     ]
 )
-async def massege_yaju(
+async def messege_yaju(
     interaction: discord.Interaction, answer: app_commands.Choice[str]
 ):
     choice = answer.value
