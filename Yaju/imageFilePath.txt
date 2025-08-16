@@ -1,0 +1,5 @@
+./images/power.png
+./images/paisenn.png
+./images/YAJU.gif
+./images/ko↑ko↓.gif
+./images/inm.gif
