@@ -126,7 +126,7 @@ async def messege_yaju(
 
 
 # ボタンで選択させるタイプのコマンド
-@tree.command(name="doyoulikeyaku", description="Do you like Yaju? ")
+@tree.command(name="doyoulikeyaju", description="Do you like Yaju? ")
 async def doyoulikeyaju(interaction: discord.Interaction):
     view = QuestionView()
 
