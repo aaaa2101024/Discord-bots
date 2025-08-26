@@ -19,12 +19,13 @@ with open(".env", "r", encoding="utf-8") as f:
 class ResponsButton(discord.ui.View):
     def __init__(self):
         super().__init__()
+        self.responsFlag = False
 
     # respons
     @discord.ui.button(label="I'm here!!!",style=discord.ButtonStyle.success)
     async def respons(self,interaction:discord.Interaction,button:discord.ui.Button):
         await interaction.response.defer()
-        flag = True
+        self.responsFlag = True
         button.disabled = True
         await interaction.edit_original_response(view=self)
         return 
@@ -42,20 +43,18 @@ async def on_ready():
 async def ping(interaction :discord.Interaction, member:discord.Member, cnt:int):
     if cnt > 100:
         await interaction.response.send_message("さすがにね、discordが破壊されるんじゃないかな")
-    flag = False
     view=ResponsButton()
     await interaction.response.send_message(f"{member.mention} に ping を送信しています 32 バイトのデータ:", view=view)
     for _ in range(cnt):
         # (非同期処理スリープ)
         await asyncio.sleep(3)
-        if(flag == True):
+        if(view.responsFlag == True):
             break
         else :
-            await interaction.followup.send("要求がタイムアウトしました。")
-    if(flag == True):
+            await interaction.followup.send(f"{member.mention}への要求がタイムアウトしました。")
+    if(view.responsFlag == True):
         await interaction.followup.send(f"{member.mention}の生存を確認")
     else:
         await interaction.followup.send("行方不明")
-
 
 bot.run(TOKEN)
