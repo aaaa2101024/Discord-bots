@@ -35,9 +35,10 @@ def makeingPaypayURL():
 
 
 @bot.event
-async def on_ready():
+async def on_ready(interaction: discord.Interaction):
     print(f"{bot.user}としてログイン")
     await tree.sync()
+    await interaction.response.send_message("paypay!!!/nスクラッチチャンス!!!!!")
     print("スラッシュコマンドなんね")
 
 
