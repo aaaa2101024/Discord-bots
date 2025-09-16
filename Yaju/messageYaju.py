@@ -146,5 +146,8 @@ async def sendimagetest(interaction: discord.Interaction):
     except Exception as e:
         await interaction.response.send_message(f"{e}だよ", ephemeral=True)
 
+@tree.command(name="yajuvoice",description="先輩がおしゃべりしてくれる")
+async def yajuvoice(interaction:discord.Interaction):
+    hoge = 1
 
 bot.run(TOKEN)
