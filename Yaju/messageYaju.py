@@ -1,6 +1,7 @@
 import discord
 from discord import app_commands
 import random
+import os
 
 intents = discord.Intents.default()
 bot = discord.Client(intents=intents)
@@ -27,6 +28,11 @@ with open("./imageFilePath.txt", "r", encoding="utf-8") as f:
         # strip()で改行を削除
         FILEPASSES.append(line.strip())
 
+# 音声ファイル名を取得
+VOICEFILES = []
+for path in os.listdir("./voice"):
+    relative_path = f"./voice/{path}"
+    VOICEFILES.append(relative_path)
 
 def decision_goroku():
     goroku = GOROKU[random.randint(0, len(GOROKU) - 1)]
@@ -47,6 +53,10 @@ def decision_image():
     #     await interaction.edit_original_response(f"{e}だよ", ephemeral=True)
     # return "a"
 
+def decision_voice():
+    filePath = VOICEFILES[random.randint(0, len(VOICEFILES) - 1)]
+    print(filePath)
+    return filePath
 
 # ボタンの設定
 class QuestionView(discord.ui.View):
@@ -146,8 +156,31 @@ async def sendimagetest(interaction: discord.Interaction):
     except Exception as e:
         await interaction.response.send_message(f"{e}だよ", ephemeral=True)
 
-@tree.command(name="yajuvoice",description="先輩がおしゃべりしてくれる")
+
+# botをボイスチャンネルに参加させる
+@tree.command(name="joinyaju", description="ボイスチャンネルに招待させる")
+async def join(interaction:discord.Interaction):
+    if interaction.user.voice is None:
+        await interaction.response.send_message("それじゃあ、最初にボイスチャンネルに参加してくれるかな")
+        return
+    
+    voice_channel = interaction.user.voice.channel
+    await voice_channel.connect()
+    await interaction.response.send_message(f"{bot.user} : お　ま　た　せ")
+    return 
+
+
+@tree.command(name="speakvoice",description="先輩がおしゃべりしてくれる")
 async def yajuvoice(interaction:discord.Interaction):
-    hoge = 1
+    if interaction.guild.voice_client is None:
+        await interaction.response.send_message("それじゃあ、ボイスチャンネルに参加させてくれるかな")
+        return 
+    
+    voice = decision_voice()
+
+    source = discord.FFmpegPCMAudio(voice)
+    interaction.guild.voice_client.play(source)
+    await interaction.response.send_message("しゃべったーーー！！！！！！！！！")
+    return 
 
 bot.run(TOKEN)
