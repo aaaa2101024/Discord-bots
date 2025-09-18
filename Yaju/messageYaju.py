@@ -10,6 +10,7 @@ tree = app_commands.CommandTree(bot)
 TOKEN = "1"
 GOROKU = []
 FILEPASSES = []
+VOICEFILES = []
 
 # TOKENを開く
 with open(".env", "r", encoding="utf-8") as f:
@@ -22,16 +23,14 @@ with open("./goroku.txt", "r", encoding="utf-8") as f:
     for line in f:
         GOROKU.append(line)
 
-# 画像のパスを取得
-with open("./imageFilePath.txt", "r", encoding="utf-8") as f:
-    for line in f:
-        # strip()で改行を削除
-        FILEPASSES.append(line.strip())
+# 画像のファイルパスを取得
+for file_name in os.listdir("./images"):
+    relative_path = f"./images{file_name}"
+    FILEPASSES.append(relative_path)
 
-# 音声ファイル名を取得
-VOICEFILES = []
-for path in os.listdir("./voice"):
-    relative_path = f"./voice/{path}"
+# 音声のファイルパスを取得
+for file_name in os.listdir("./voice"):
+    relative_path = f"./voice/{file_name}"
     VOICEFILES.append(relative_path)
 
 def decision_goroku():
