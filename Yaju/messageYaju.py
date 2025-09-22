@@ -25,7 +25,7 @@ with open("./goroku.txt", "r", encoding="utf-8") as f:
 
 # 画像のファイルパスを取得
 for file_name in os.listdir("./images"):
-    relative_path = f"./images{file_name}"
+    relative_path = f"./images/{file_name}"
     FILEPASSES.append(relative_path)
 
 # 音声のファイルパスを取得
