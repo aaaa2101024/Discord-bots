@@ -174,7 +174,7 @@ async def join(interaction:discord.Interaction):
     return 
 
 
-@tree.command(name="speakvoice",description="先輩がおしゃべりしてくれる")
+@tree.command(name="speakyaju",description="先輩がおしゃべりしてくれる")
 async def yajuvoice(interaction:discord.Interaction):
     if interaction.guild.voice_client is None:
         await interaction.response.send_message("それじゃあ、ボイスチャンネルに参加させてくれるかな")
